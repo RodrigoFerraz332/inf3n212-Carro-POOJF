@@ -17,6 +17,7 @@ public class JFPessoa extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         jbDeletar.setVisible(false);
+        jbDeletar.setVisible(false);
     }
 
     /**
@@ -100,6 +101,11 @@ public class JFPessoa extends javax.swing.JFrame {
 
         jbSalvar.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jbSalvar.setText("Salvar");
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalvarActionPerformed(evt);
+            }
+        });
 
         jbEditar.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jbEditar.setText("Editar");
@@ -112,6 +118,11 @@ public class JFPessoa extends javax.swing.JFrame {
 
         jbDeletar.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jbDeletar.setText("Deletar");
+        jbDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDeletarActionPerformed(evt);
+            }
+        });
 
         jtPessoas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -267,6 +278,14 @@ public class JFPessoa extends javax.swing.JFrame {
             LimparCampos();
         }
     }//GEN-LAST:event_jbLimparActionPerformed
+
+    private void jbDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDeletarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbDeletarActionPerformed
+
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbSalvarActionPerformed
 public void LimparCampos(){
     jtfNome.setText("");
     jtfCPF.setText("");

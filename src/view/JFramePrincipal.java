@@ -107,7 +107,10 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     private void jmiCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCarroActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showConfirmDialog(this, "CRUD Carro");
+        //JOptionPane.showConfirmDialog(this, "CRUD Carro");
+        JFCarro carro = new JFCarro();
+        carro.setVisible(true);
+
     }//GEN-LAST:event_jmiCarroActionPerformed
 
     private void jmiPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPessoaActionPerformed
