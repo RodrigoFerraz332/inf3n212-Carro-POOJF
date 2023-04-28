@@ -4,6 +4,13 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Carro;
+import servicos.CarroServicos;
+import servicos.PessoaServicos;
+import servicos.ServicosFactory;
+
 /**
  *
  * @author 182120050
@@ -17,6 +24,67 @@ public class JFCarro extends javax.swing.JFrame {
         initComponents();
          this.setLocationRelativeTo(null);
         jbDeletar.setVisible(false);
+        addRowToTable();
+    }
+    public void addRowToTable(){
+        DefaultTableModel model=(DefaultTableModel) jtCarros.getModel();
+        model.getDataVector().removeAllElements();//remove todas as linhas
+        model.fireTableDataChanged();
+        Object rowData[] = new Object[9];
+        CarroServicos carroC = ServicosFactory.getCarrosServicos();
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
+        for (Carro carro : carroC.getCarro()) {
+           rowData[0] = carro.getProprietario().getNome();
+           rowData[1] = carro.getPlaca();
+           rowData[2] = carro.getMarca();
+           rowData[3] = carro.getModelo();
+           rowData[4] = carro.getCor();
+           rowData[5] = carro.getTpCambio();
+           rowData[6] = carro.getAnoFab();
+           rowData[7] = carro.getAnoMod();
+           rowData[8] = carro.getCombustivel();
+           model.addRow(rowData);
+        }
+    }
+    public boolean validaInputs(){
+        if (jtfProprietario.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Proprietário!");
+            jtfProprietario.requestFocus();
+            return false;
+        }else if (jtfPlaca.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Placa!");
+            jtfPlaca.requestFocus();
+            return false;
+        }else if (jtfMarca.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Marca!");
+            jtfMarca.requestFocus();
+            return false;
+        }else if(jtfModelo.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Modelo!");
+            jtfModelo.requestFocus();
+            return false;
+        }else if(jtfCor.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Cor!");
+            jtfCor.requestFocus();
+            return false;
+        }else if(jtfCambio.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Cambio!");
+            jtfCambio.requestFocus();
+            return false;
+        }else if(jtfAnoFab.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Ano de Fabricação!");
+            jtfAnoFab.requestFocus();
+            return false;
+        }else if(jtfAnoMod.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Ano Modelo!");
+            jtfAnoMod.requestFocus();
+            return false;
+        }else if(jtfCombustivel.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Combustivel!");
+            jtfCombustivel.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -126,6 +194,11 @@ public class JFCarro extends javax.swing.JFrame {
 
         jbSalvar.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jbSalvar.setText("Salvar");
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalvarActionPerformed(evt);
+            }
+        });
 
         jbLimpar.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jbLimpar.setText("Limpar");
@@ -370,6 +443,28 @@ public void LimparCampos(){
                   jbDeletar.setVisible(true);
         jbEditar.setEnabled(true);
     }//GEN-LAST:event_jtCarrosMouseClicked
+
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+        if(validaInputs()){
+        String proprietario = jtfProprietario.getText();
+        String placa = jtfPlaca.getText();
+        String marca = jtfMarca.getText();
+        String modelo =  jtfModelo.getText();
+        String cor = jtfCor.getText();
+        String cambio = jtfCambio.getText();
+        String anofab = jtfAnoFab.getText();
+        String anomod = jtfAnoMod.getText();
+        String combustivel = jtfCombustivel;
+        
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
+        CarroServicos carroC =ServicosFactory.getCarrosServicos();
+        Carro c = new Carro(placa, marca, modelo, ABORT, ABORT, cor, cambio, cambio, proprietario);
+        carroC.cadastroCarro(c);
+        addRowToTable();
+        LimparCampos();
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
 
     /**
      * @param args the command line arguments

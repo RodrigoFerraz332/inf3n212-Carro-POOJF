@@ -172,6 +172,10 @@
             </Property>
             <Property name="text" type="java.lang.String" value="*CPF"/>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jLabel3FocusLost"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jLabel3KeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfCPF">
         </Component>

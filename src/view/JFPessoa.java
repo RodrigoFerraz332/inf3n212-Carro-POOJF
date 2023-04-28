@@ -4,6 +4,12 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Pessoa;
+import servicos.PessoaServicos;
+import servicos.ServicosFactory;
+
 /**
  *
  * @author 182120050
@@ -17,7 +23,41 @@ public class JFPessoa extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         jbDeletar.setVisible(false);
-        jbDeletar.setVisible(false);
+        addRowToTable();
+    }
+    public void addRowToTable(){
+        DefaultTableModel model=(DefaultTableModel) jtPessoas.getModel();
+        model.getDataVector().removeAllElements();//remove todas as linhas
+        model.fireTableDataChanged();
+        Object rowData[] = new Object[4];
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
+        for (Pessoa pessoa : pessoaS.getPessoas()) {
+           rowData[0] = pessoa.getCpf();
+           rowData[1] = pessoa.getNome();
+           rowData[2] = pessoa.getTelefone();
+           rowData[3] = pessoa.getEndereco();
+           model.addRow(rowData);
+        }
+    }
+    public boolean validaInputs(){
+        if (jtfCPF.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher CPF!");
+            jtfCPF.requestFocus();
+            return false;
+        }else if (jtfNome.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Nome!");
+            jtfNome.requestFocus();
+            return false;
+        }else if (jtfEndereco.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Endereço!");
+            jtfEndereco.requestFocus();
+            return false;
+        }else if(jftfTelefone.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Preencher Telefone!");
+            jftfTelefone.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -70,6 +110,16 @@ public class JFPessoa extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel3.setText("*CPF");
+        jLabel3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jLabel3FocusLost(evt);
+            }
+        });
+        jLabel3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jLabel3KeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel4.setText("*Telefone");
@@ -285,7 +335,38 @@ public class JFPessoa extends javax.swing.JFrame {
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
+        if(validaInputs()){
+        String cpf = jtfCPF.getText();
+        String nome = jtfNome.getText().toLowerCase();
+        String telefone = jftfTelefone.getText();
+        String endereco =  jtfEndereco.getText().toUpperCase();
+        
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
+        Pessoa p = new Pessoa(0,nome, cpf, endereco, telefone);
+        pessoaS.cadastroPessoa(p);
+        addRowToTable();
+        LimparCampos();
+        }
     }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jLabel3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jLabel3FocusLost
+        // TODO add your handling code here:
+        PessoaServicos pessoaS =ServicosFactory.getPessoaServicos();
+        if (pessoaS.getPessoaByDoc(jtfCPF.getText()).getCpf() !=null) {
+            JOptionPane.showMessageDialog(this, "CPF já cadastro!");
+            jtfCPF.setText("");
+            jtfCPF.requestFocus();
+        }
+    }//GEN-LAST:event_jLabel3FocusLost
+
+    private void jLabel3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel3KeyTyped
+        // TODO add your handling code here:
+        String num = "0123456789";
+        if (num.contains(evt.getKeyChar()+"")) {
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_jLabel3KeyTyped
 public void LimparCampos(){
     jtfNome.setText("");
     jtfCPF.setText("");
